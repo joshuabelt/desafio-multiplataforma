@@ -1,13 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import { Product } from "../data/products";
-import{CartContext} from "../CartContext";
-import{CartProvider} from "../CartProvider";
-export const useCart = (): CartContextType => {
-  const context = useContext(CartContext);
-  
-  if (!context) {
-    throw new Error("useCart debe ser usado dentro de un CartProvider");
-  }
-  
-  return context;
-};
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "./store";
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

@@ -1,4 +1,4 @@
-import {Product} from '../types/Product';
+import type { Product } from "../types/Product";
 
 export const products: Product[] = [
   {
@@ -241,6 +241,14 @@ export const products: Product[] = [
     category: "Redes",
     quantity: 5
   }
-]
+];
 
-export const categories: string[] = ["Gamer", "Electrónica", "Computo", "Redes", "Hardware","Móviles", "Hardware","Home Office"];
+export const categories: string[] = [
+  "Gamer",
+  "Electronica",
+  "Computo",
+  "Redes",
+  "Hardware",
+  "Móviles",
+  "Home Office"
+];

@@ -1,7 +1,6 @@
-import CatalogContainer from "./components/CatalogContainer";
-import { CartProvider } from "./context/CartContext";
-// Imagina que tienes un componente Navbar que muestra el total del carrito
-import Navbar from "./components/Navbar"; 
+import CatalogContainer from "../components/CatalogContainer";
+import Navbar from "../components/Navbar";
+import { CartProvider } from "../cart-components/CartProvider";
 
 export default function App() {
   return (

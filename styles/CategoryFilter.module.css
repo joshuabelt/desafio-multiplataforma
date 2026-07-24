@@ -1,0 +1,27 @@
+.filterGroup {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+
+.filterButton {
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #374151;
+  padding: 0.6rem 0.95rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.filterButton:hover {
+  background: #e5e7eb;
+}
+
+.active {
+  background: #111827;
+  color: #ffffff;
+  border-color: #111827;
+}

@@ -1,19 +1,46 @@
-import { useCart } from "../cart-components/CartContext";
+"use client";
+
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "../redux/features/cart/cartSlice";
+import styles from "../styles/Navbar.module.css";
 
 export default function Navbar() {
-  // Extraemos los datos que queremos mostrar
-  const { cart, cartTotal } = useCart();
-  
-  // Calculamos la cantidad total de artículos
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart.items);
+
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <nav style={{ display: "flex", justifyContent: "space-between", padding: "20px", background: "#f8f9fa" }}>
-      <h2>Mi E-Commerce</h2>
-      <div>
-        <span>🛒 {totalItems} artículos</span>
-        <span style={{ marginLeft: "15px", fontWeight: "bold" }}>Total: ${cartTotal}</span>
+    <nav className={styles.navbar}>
+      <div className={styles.headerRow}>
+        <h2 className={styles.title}>Mi E-Commerce</h2>
+        <div className={styles.summary}>
+          <p>🛒 {totalItems} artículos</p>
+          <p>Total: ${cartTotal}</p>
+        </div>
       </div>
+
+      {cart.length === 0 ? (
+        <p className={styles.emptyState}>Tu carrito está vacío.</p>
+      ) : (
+        <div className={styles.cartList}>
+          {cart.map((item) => (
+            <div key={item.id} className={styles.cartItem}>
+              <span className={styles.itemName}>{item.title} × {item.quantity}</span>
+              <div className={styles.quantityGroup}>
+                <button className={styles.iconButton} onClick={() => dispatch(decreaseQuantity(item.id))}>-</button>
+                <button className={styles.iconButton} onClick={() => dispatch(increaseQuantity(item.id))}>+</button>
+                <button className={styles.removeButton} onClick={() => dispatch(removeFromCart(item.id))}>Eliminar</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
