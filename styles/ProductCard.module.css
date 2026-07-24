@@ -5,9 +5,10 @@
   padding: 1.1rem;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex-direction: row;
+  gap: 1rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  align-items: flex-start;
 }
 
 .card:hover {
@@ -15,10 +16,36 @@
   box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
 }
 
+.imageContainer {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
 .title {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #111827;
+  line-height: 1.4;
 }
 
 .price {
@@ -37,6 +64,7 @@
   color: white;
   font-weight: 600;
   transition: opacity 0.2s ease, transform 0.2s ease;
+  align-self: flex-start;
 }
 
 .button:hover {
