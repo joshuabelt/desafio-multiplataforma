@@ -9,9 +9,21 @@ interface CartState {
   items: CartItem[];
 }
 
-const initialState: CartState = {
-  items: [],
+// Cargar estado inicial desde localStorage (solo en cliente)
+const getInitialState = (): CartState => {
+  if (typeof window === "undefined") {
+    return { items: [] };
+  }
+
+  try {
+    const stored = localStorage.getItem("shopping_cart");
+    return { items: stored ? JSON.parse(stored) : [] };
+  } catch {
+    return { items: [] };
+  }
 };
+
+const initialState: CartState = getInitialState();
 
 const MAX_ITEMS = 20;
 
