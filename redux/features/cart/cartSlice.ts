@@ -25,7 +25,7 @@ const getInitialState = (): CartState => {
 
 const initialState: CartState = getInitialState();
 
-const MAX_ITEMS = 20;
+export const MAX_ITEMS = 20;
 
 const cartSlice = createSlice({
   name: "cart",
