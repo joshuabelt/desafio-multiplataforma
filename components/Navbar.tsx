@@ -56,7 +56,7 @@ export default function Navbar() {
     <>
       <nav className={styles.navbar}>
         <div className={styles.headerRow}>
-          <h2 className={styles.title}>Mi E-Commerce</h2>
+          <h2 className={styles.title}>Tech Store</h2>
           <div className={styles.actions}>
             <button className={styles.authButton} onClick={() => setIsAuthOpen(true)}>
               {auth.isAuthenticated ? `Hola, ${auth.user?.name || "cliente"}` : "Iniciar sesión"}

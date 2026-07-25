@@ -18,7 +18,7 @@ export default function CatalogContainer() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Catálogo de Productos</h1>
-        <p className={styles.subtitle}>Explora nuestra colección y agrega tus favoritos al carrito.</p>
+        <p className={styles.subtitle}>Los mejores productos tecnológicos solo en nuestra tienda</p>
       </div>
 
       <CategoryFilter
