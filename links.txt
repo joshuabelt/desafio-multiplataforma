@@ -1,0 +1,3 @@
+Aquí estan los enlaces:
+video explicativo: https://drive.google.com/file/d/1aAFzaRdesYk1jWSVtavdvogUZBEBenk_/view?usp=sharing
+página subida a Vercel: https://desafio-multiplataforma.vercel.app/
