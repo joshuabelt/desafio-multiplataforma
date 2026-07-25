@@ -1,15 +1,14 @@
 import { Middleware } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 
 const CART_STORAGE_KEY = "shopping_cart";
 
-export const persistenceMiddleware: Middleware<{}, RootState> =
+export const persistenceMiddleware: Middleware =
   (store) => (next) => (action) => {
     const result = next(action);
     const state = store.getState();
 
     // Guardar el carrito en localStorage siempre que cambie
-    if (action.type.startsWith("cart/")) {
+    if (typeof action === "object" && action !== null && "type" in action && typeof action.type === "string" && action.type.startsWith("cart/")) {
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.cart.items));
     }
 

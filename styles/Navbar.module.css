@@ -19,6 +19,13 @@
   font-weight: 700;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.authButton,
 .cartButton {
   position: relative;
   background: rgba(255, 255, 255, 0.2);
@@ -34,6 +41,7 @@
   font-weight: 600;
 }
 
+.authButton:hover,
 .cartButton:hover {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.5);
@@ -61,33 +69,82 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-
-.iconButton,
-.removeButton {
-  border: none;
-  border-radius: 999px;
-  padding: 0.4rem 0.7rem;
-  font-size: 0.9rem;
-  transition: transform 0.2s ease, background 0.2s ease;
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
 }
 
-.iconButton {
-  background: #f3f4f6;
+.authModal {
+  width: min(100%, 420px);
+  background: white;
+  border-radius: 1rem;
+  padding: 1.25rem;
   color: #111827;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
 }
 
-.iconButton:hover,
-.removeButton:hover {
-  transform: translateY(-1px);
+.authHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.removeButton {
-  background: #ef4444;
+.authHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.closeButton {
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.input {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+}
+
+.submitButton,
+.switchButton,
+.logoutButton {
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: white;
 }
 
-.emptyState {
-  margin: 0.5rem 0 0;
-  color: #d1d5db;
-  font-size: 0.95rem;
+.switchButton {
+  margin-top: 0.75rem;
+  background: #f3f4f6;
+  color: #111827;
+  width: 100%;
+}
+
+.logoutButton {
+  margin-top: 0.75rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  width: 100%;
 }

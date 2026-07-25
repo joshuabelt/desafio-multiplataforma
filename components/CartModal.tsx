@@ -23,6 +23,7 @@ type CheckoutView = "cart" | "success";
 export default function CartModal({ isOpen, onClose }: CartModalProps) {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.items);
+  const auth = useAppSelector((state) => state.auth);
   const { addToast } = useToast();
   const [checkoutView, setCheckoutView] = useState<CheckoutView>("cart");
   const [invoiceNumber, setInvoiceNumber] = useState("");
@@ -52,7 +53,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
     dispatch(increaseQuantity(productId));
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (cart.length === 0) {
       addToast("Tu carrito está vacío", "error");
       return;
@@ -63,6 +64,8 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
       .slice(0, 10)
       .replace(/-/g, "")}-${Date.now().toString().slice(-4)}`;
     const orderDate = new Date().toLocaleString("es-ES");
+    const customerName = auth.user?.name || "Cliente registrado";
+    const customerEmail = auth.user?.email || "contacto@tienda.com";
     const invoiceSummaryItems = totalItems;
     const invoiceSummaryTotal = cartTotal;
     const generatedInvoice = [
@@ -70,7 +73,8 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
       "=================",
       `Número: ${generatedInvoiceNumber}`,
       `Fecha: ${orderDate}`,
-      "Cliente: Cliente registrado",
+      `Cliente: ${customerName}`,
+      `Correo: ${customerEmail}`,
       "",
       "Productos:",
       ...cart.map(
@@ -82,13 +86,44 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
       `Total: $${cartTotal.toFixed(2)}`,
     ].join("\n");
 
+    const invoicePayload = {
+      invoiceNumber: generatedInvoiceNumber,
+      orderDate,
+      customerName,
+      customerEmail,
+      items: cart.map((item: { title: string; quantity: number; price: number }) => ({
+        title: item.title,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      totalItems: invoiceSummaryItems,
+      cartTotal: invoiceSummaryTotal,
+    };
+
     setInvoiceNumber(generatedInvoiceNumber);
     setInvoiceText(generatedInvoice);
     setInvoiceTotalItems(invoiceSummaryItems);
     setInvoiceCartTotal(invoiceSummaryTotal);
     setCheckoutView("success");
     dispatch(clearCart());
-    addToast("Compra realizada con éxito. Tu factura ha sido generada.", "success");
+
+    try {
+      const response = await fetch("/api/send-invoice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(invoicePayload),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        addToast("Compra realizada con éxito. Tu factura ha sido enviada al correo.", "success");
+      } else {
+        addToast("Compra realizada con éxito. La factura fue generada, pero no pudo enviarse por correo.", "error");
+      }
+    } catch {
+      addToast("Compra realizada con éxito. La factura fue generada, pero no pudo enviarse por correo.", "error");
+    }
   };
 
   const handleDownloadInvoice = () => {
@@ -105,12 +140,13 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
     pdf.setFontSize(11);
     pdf.text(`Número: ${invoiceNumber}`, 14, 35);
     pdf.text(`Fecha: ${new Date().toLocaleString("es-ES")}`, 14, 42);
-    pdf.text("Cliente: Cliente registrado", 14, 49);
+    pdf.text(`Cliente: ${auth.user?.name || "Cliente registrado"}`, 14, 49);
+    pdf.text(`Correo: ${auth.user?.email || "contacto@tienda.com"}`, 14, 56);
 
     pdf.setFontSize(12);
-    pdf.text("Productos:", 14, 64);
+    pdf.text("Productos:", 14, 71);
 
-    const lines = invoiceText.split("\n").slice(6, -2);
+    const lines = invoiceText.split("\n").slice(7);
     let yPosition = 78;
 
     lines.forEach((line) => {
